@@ -1,0 +1,215 @@
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: #f4f5fa;
+}
+
+/* ===== Header gradiente compartilhado ===== */
+.gradient-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+/* ===== Dashboard (Grade) ===== */
+.dash-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dash-header {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.dash-header h1 {
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 4px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.9em;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.module {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.module:hover { transform: translateY(-4px); }
+
+.module-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 18px 20px;
+  font-weight: 600;
+  font-size: 1.05em;
+}
+
+.topic {
+  padding: 14px 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.topic:last-child { border-bottom: none; }
+.topic:hover { background: #f8f9fa; }
+
+.topic-status {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+.status-pendente { background: #ddd; color: #666; }
+.status-estudando { background: #ffc107; color: white; animation: pulse 2s infinite; }
+.status-concluido { background: #28a745; }
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+.topic-info { flex: 1; min-width: 0; }
+.topic-name { font-weight: 500; color: #333; font-size: 0.93em; }
+.topic-description {
+  color: #999; font-size: 0.82em; margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topic-order { color: #bbb; font-size: 0.82em; flex-shrink: 0; }
+
+.module-stats {
+  padding: 10px 20px; background: #f8f9fa; font-size: 0.82em; color: #666;
+  display: flex; justify-content: space-between;
+}
+.progress-bar { background: #eee; height: 4px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width .3s; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px;
+}
+.modal-box {
+  background: white; padding: 28px; border-radius: 12px; max-width: 480px; width: 100%; max-height: 80vh; overflow-y: auto;
+}
+.modal-close { float: right; font-size: 1.4em; cursor: pointer; color: #999; line-height: 1; }
+.modal-box h2 { margin-bottom: 14px; color: #333; font-size: 1.2em; padding-right: 20px; }
+.modal-section { margin-bottom: 16px; }
+.modal-section label { display: block; color: #666; font-size: 0.85em; margin-bottom: 4px; font-weight: 500; }
+.modal-section p { color: #666; line-height: 1.55; font-size: 0.93em; }
+.modal-status { display: inline-block; padding: 6px 12px; border-radius: 6px; font-size: 0.85em; font-weight: 600; }
+.modal-status.estudando { background: #fff3cd; color: #856404; }
+.modal-status.concluido { background: #d4edda; color: #155724; }
+.modal-status.pendente { background: #e2e3e5; color: #383d41; }
+
+/* ===== Chat (Aula) ===== */
+.chat-shell { height: 100vh; display: flex; flex-direction: column; background: #fff; }
+
+.chat-header {
+  padding: 15px 20px; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.chat-header h1 { font-size: 1.1em; margin-bottom: 2px; }
+.chat-header p { font-size: 0.85em; opacity: 0.9; }
+
+.progress-strip {
+  background: #f0f0f0; padding: 10px 20px; display: flex; align-items: center;
+  font-size: 0.85em; color: #666; border-bottom: 1px solid #eee;
+}
+.progress-bar-mini { flex: 1; height: 4px; background: #ddd; border-radius: 2px; margin: 0 10px; overflow: hidden; }
+.progress-bar-mini-fill { height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); }
+
+.chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+
+.message { display: flex; gap: 10px; animation: slideIn .3s ease; max-width: 100%; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+.message.user { justify-content: flex-end; }
+
+.message-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; line-height: 1.45; word-wrap: break-word; white-space: pre-wrap; }
+.message.assistant .message-bubble { background: #e8eaf6; color: #333; border-radius: 12px 12px 12px 0; }
+.message.user .message-bubble { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px 12px 0 12px; }
+
+.aula-bubble { background: white; border-left: 4px solid #667eea; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); max-width: 92%; }
+.aula-bubble h3 { color: #667eea; margin-bottom: 10px; font-size: 1em; }
+.aula-section { margin-bottom: 12px; }
+.aula-section:last-child { margin-bottom: 0; }
+.aula-section-title { font-weight: 600; color: #333; margin-bottom: 6px; font-size: 0.9em; }
+.aula-section-content { color: #666; font-size: 0.9em; line-height: 1.5; white-space: pre-wrap; }
+
+.status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75em; font-weight: 600; margin-bottom: 10px; }
+.status-estudando-badge { background: #fff3cd; color: #856404; }
+.status-pendente-badge { background: #e2e3e5; color: #383d41; }
+
+.feedback-message { border-left: 4px solid #28a745; padding: 12px; border-radius: 6px; font-size: 0.95em; max-width: 85%; }
+.feedback-message.aprovado { background: #d4edda; color: #155724; }
+.feedback-message.reprovado { background: #f8d7da; color: #721c24; border-left-color: #dc3545; }
+
+.timestamp { font-size: 0.75em; color: #999; margin-top: 4px; }
+.message.user .timestamp { text-align: right; }
+.message.assistant .timestamp { text-align: left; }
+
+.input-area { padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #eee; display: flex; gap: 10px; align-items: flex-end; }
+.input-area textarea {
+  flex: 1; border: 1px solid #ddd; border-radius: 20px; padding: 10px 16px; font-family: inherit;
+  font-size: 0.95em; resize: none; max-height: 120px; min-height: 40px; line-height: 1.4; outline: none;
+}
+.input-area textarea:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102,126,234,0.15); }
+.send-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1em; flex-shrink: 0; transition: transform .2s;
+}
+.send-btn:hover:not(:disabled) { transform: scale(1.05); }
+.send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.top-nav { display: flex; gap: 10px; }
+.top-nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.85em; font-weight: 600; padding: 6px 12px; border-radius: 20px; }
+.top-nav a.active { background: rgba(255,255,255,0.25); color: white; }
+
+@media (max-width: 768px) {
+  .modules { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr 1fr; }
+}
