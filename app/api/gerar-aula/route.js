@@ -25,21 +25,25 @@ export async function POST(request) {
 
     const msg = await anthropic.messages.create({
       model: "claude-sonnet-4-5",
-      max_tokens: 1200,
+      max_tokens: 2200,
       messages: [
         {
           role: "user",
-          content: `Você é um professor particular direto e prático. Crie uma mini-aula em português sobre o tópico "${topico.topico}" (módulo "${topico.modulo}").
+          content: `Você é um professor particular excelente, didático e detalhista. Crie uma aula completa em português sobre o tópico "${topico.topico}" (módulo "${topico.modulo}").
 
 Contexto do tópico: ${topico.descricao}
 
-Gere três partes:
-1. metafora: uma analogia curta e simples do dia a dia que explique a ideia central (2-4 frases)
-2. explicacao: explicação técnica direta e precisa (4-6 frases)
-3. desafio: uma pergunta ou mini-exercício prático que o aluno deve responder com as próprias palavras para provar que entendeu
+Gere quatro partes, todas bem desenvolvidas (não resuma demais, o aluno quer aprender de verdade):
 
-Responda SOMENTE em JSON válido, sem markdown, no formato exato:
-{"metafora": "...", "explicacao": "...", "desafio": "..."}`,
+1. metafora: uma analogia rica do dia a dia que explique a ideia central, com pelo menos 4-6 frases, desenvolvendo a comparação em detalhe.
+2. explicacao: explicação técnica completa e aprofundada, com pelo menos 8-12 frases. Cubra o conceito, por que ele existe, como funciona na prática, erros comuns e quando usar cada variação, se aplicável. Pode usar parágrafos.
+3. exemplo: um exemplo prático real e concreto (pode incluir trecho de código, requisição HTTP, comando, ou passo a passo numerado), mostrando o conceito sendo aplicado de verdade — não apenas descrito.
+4. desafio: uma pergunta ou mini-exercício prático e específico que o aluno deve responder com as próprias palavras para provar que entendeu, conectando com o exemplo dado.
+
+Responda SOMENTE em JSON válido, sem markdown ao redor, no formato exato:
+{"metafora": "...", "explicacao": "...", "exemplo": "...", "desafio": "..."}
+
+Dentro dos textos você pode usar quebras de linha (\\n) para organizar parágrafos, listas numeradas em texto simples, etc. Não use markdown com # ou **.`,
         },
       ],
     });
@@ -50,7 +54,7 @@ Responda SOMENTE em JSON válido, sem markdown, no formato exato:
     try {
       estrutura = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
     } catch (e) {
-      estrutura = { metafora: "", explicacao: raw, desafio: "Explique com suas palavras o que você entendeu sobre este tópico." };
+      estrutura = { metafora: "", explicacao: raw, exemplo: "", desafio: "Explique com suas palavras o que você entendeu sobre este tópico." };
     }
 
     if (topico.status === "pendente") {

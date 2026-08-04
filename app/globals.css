@@ -213,3 +213,12 @@ body {
   .modules { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
 }
+
+.gerar-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white; border: none; border-radius: 20px; padding: 10px 20px;
+  font-size: 0.9em; font-weight: 600; cursor: pointer; transition: transform .2s;
+}
+.gerar-btn:hover:not(:disabled) { transform: translateY(-1px); }
+.gerar-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.status-concluido-badge { background: #d4edda; color: #155724; }

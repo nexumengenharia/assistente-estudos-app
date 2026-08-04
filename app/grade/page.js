@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabaseClient";
 import Nav from "@/components/Nav";
 
@@ -8,9 +9,9 @@ const statusIcon = { pendente: "-", estudando: "→", concluido: "✓" };
 
 export default function GradePage() {
   const supabase = createClient();
+  const router = useRouter();
   const [topicos, setTopicos] = useState([]);
   const [carregando, setCarregando] = useState(true);
-  const [selecionado, setSelecionado] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -71,7 +72,7 @@ export default function GradePage() {
                   <div className="module-header">{modulo}</div>
                   <div className="topics">
                     {itens.map((t) => (
-                      <div key={t.id} className="topic" onClick={() => setSelecionado(t)}>
+                      <div key={t.id} className="topic" onClick={() => router.push(`/aula/${t.id}`)}>
                         <div className={`topic-status status-${t.status}`}>{statusIcon[t.status]}</div>
                         <div className="topic-info">
                           <div className="topic-name">{t.topico}</div>
@@ -95,30 +96,6 @@ export default function GradePage() {
         )}
       </div>
 
-      {selecionado && (
-        <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setSelecionado(null); }}>
-          <div className="modal-box">
-            <span className="modal-close" onClick={() => setSelecionado(null)}>&times;</span>
-            <h2>{selecionado.topico}</h2>
-            <div className="modal-section">
-              <label>Status</label>
-              <span className={`modal-status ${selecionado.status}`}>{statusLabel[selecionado.status]}</span>
-            </div>
-            <div className="modal-section">
-              <label>Módulo</label>
-              <p>{selecionado.modulo}</p>
-            </div>
-            <div className="modal-section">
-              <label>Descrição</label>
-              <p>{selecionado.descricao}</p>
-            </div>
-            <div className="modal-section">
-              <label>Ordem na trilha</label>
-              <p>Tópico #{selecionado.ordem} de {topicos.length}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
