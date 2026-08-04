@@ -31,6 +31,7 @@ export default function AulaChat({ topicoId }) {
   const [resposta, setResposta] = useState("");
   const [avaliando, setAvaliando] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [erroApi, setErroApi] = useState("");
   const chatRef = useRef(null);
 
   useEffect(() => {
@@ -86,13 +87,21 @@ export default function AulaChat({ topicoId }) {
   async function gerarAula() {
     if (!topico) return;
     setGerandoAula(true);
+    setErroApi("");
     try {
-      await fetch("/api/gerar-aula", {
+      const res = await fetch("/api/gerar-aula", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topicoId: topico.id }),
       });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setErroApi(data.error || "Erro ao gerar aula.");
+        return;
+      }
       await carregar();
+    } catch (e) {
+      setErroApi("Falha de conexão ao gerar aula.");
     } finally {
       setGerandoAula(false);
     }
@@ -180,6 +189,9 @@ export default function AulaChat({ topicoId }) {
               <button onClick={gerarAula} disabled={gerandoAula} className="gerar-btn">
                 {gerandoAula ? "Gerando..." : "✨ Gerar aula completa"}
               </button>
+              {erroApi && (
+                <div style={{ color: "#dc3545", fontSize: "0.85em", marginTop: 8 }}>⚠ {erroApi}</div>
+              )}
             </div>
           </div>
         )}
