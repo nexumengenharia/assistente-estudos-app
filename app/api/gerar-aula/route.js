@@ -73,11 +73,21 @@ Use \\n para quebras de linha dentro dos textos quando ajudar a organizar. Não 
         .eq("id", topico.id);
     }
 
-    await supabase.from("logs_estudo").insert({
+    const aulaTextoLegado = [estrutura.metafora, estrutura.explicacao, estrutura.exemplo, estrutura.desafio]
+      .filter(Boolean)
+      .join("\n\n");
+
+    const { error: errInsert } = await supabase.from("logs_estudo").insert({
       topico_id: topico.id,
+      aula_gerada: aulaTextoLegado || "aula gerada",
       aula_gerada_v2: JSON.stringify(estrutura),
       data_aula: new Date().toISOString(),
     });
+
+    if (errInsert) {
+      console.error("Erro ao salvar log da aula:", errInsert.message);
+      return NextResponse.json({ error: `Erro ao salvar aula: ${errInsert.message}` }, { status: 500 });
+    }
 
     return NextResponse.json({ aula: estrutura });
   } catch (err) {
