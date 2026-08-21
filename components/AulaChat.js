@@ -259,12 +259,12 @@ export default function AulaChat({ topicoId }) {
         )}
       </div>
 
-      {aula && !feedback && topico.status !== "concluido" && (
+      {aula && !(feedback && feedback.aprovado) && topico.status !== "concluido" && (
         <div className="input-area">
           <textarea
             value={resposta}
             onChange={(e) => setResposta(e.target.value)}
-            placeholder="Sua resposta..."
+            placeholder={feedback && !feedback.aprovado ? "Tente novamente..." : "Sua resposta..."}
             rows={1}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
