@@ -25,6 +25,7 @@ export default function Nav({ subtitle }) {
       <nav className="top-nav">
         <Link href="/aula" className={pathname === "/aula" ? "active" : ""}>Aula</Link>
         <Link href="/grade" className={pathname === "/grade" ? "active" : ""}>Grade</Link>
+        <Link href="/leitura" className={pathname?.startsWith("/leitura") ? "active" : ""}>Leitura</Link>
         <a href="#" onClick={(e) => { e.preventDefault(); sair(); }}>Sair</a>
       </nav>
     </div>
